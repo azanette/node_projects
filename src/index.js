@@ -88,7 +88,7 @@ app.put("/todos/:id", checksExistsUserAccount, (request, response) => {
   user.todos[todoIndex].title = title;
   user.todos[todoIndex].deadline = new Date(deadline);
 
-  return response.status(200).send();
+  return response.status(201).send();
 });
 
 app.patch("/todos/:id/done", checksExistsUserAccount, (request, response) => {
@@ -108,7 +108,7 @@ app.patch("/todos/:id/done", checksExistsUserAccount, (request, response) => {
     return response.status(200).json({ msg: "Todo is done!" });
   } else {
     return response
-      .status(400)
+      .status(404)
       .json({ msg: "This Todo has already been made!" });
   }
 });

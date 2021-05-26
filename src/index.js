@@ -79,7 +79,7 @@ app.put("/todos/:id", checksExistsUserAccount, (request, response) => {
 
   const todoIndex = user.todos.find((userTodoIndex) => userTodoIndex.id == id);
 
-  if (todoIndex < 0) {
+  if (!todoIndex) {
     return response.status(404).json({ error: "Todo not found!" });
   }
 

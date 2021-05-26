@@ -77,35 +77,31 @@ app.put("/todos/:id", checksExistsUserAccount, (request, response) => {
   const { id } = request.params;
   const { user } = request;
 
-  const todoIndex = user.todos.findIndex(
-    (userTodoIndex) => userTodoIndex.id == id
-  );
+  const todoIndex = user.todos.find((userTodoIndex) => userTodoIndex.id === id);
 
   if (todoIndex < 0) {
     return response.status(404).json({ error: "Todo not found!" });
   }
 
-  user.todos[todoIndex].title = title;
-  user.todos[todoIndex].deadline = new Date(deadline);
+  todoIndex.title = title;
+  todoIndex.deadline = new Date(deadline);
 
-  return response.status(201).send();
+  return response.status(200).json(todoIndex);
 });
 
 app.patch("/todos/:id/done", checksExistsUserAccount, (request, response) => {
   const { id } = request.params;
   const { user } = request;
 
-  const todoIndex = user.todos.findIndex(
-    (userTodoIndex) => userTodoIndex.id == id
-  );
+  const todoIndex = user.todos.find((userTodoIndex) => userTodoIndex.id === id);
 
-  if (todoIndex < 0) {
+  if (!todoIndex) {
     return response.status(404).json({ error: "Todo not found!" });
   }
 
-  if (user.todos[todoIndex].done == false) {
-    user.todos[todoIndex].done = true;
-    return response.status(200).json({ msg: "Todo is done!" });
+  if (todoIndex.done == false) {
+    todoIndex.done = true;
+    return response.status(200).json(todoIndex);
   } else {
     return response
       .status(404)
